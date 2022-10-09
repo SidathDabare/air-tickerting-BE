@@ -1,0 +1,43 @@
+{
+  "name": "air-tickerting-be",
+  "version": "1.0.0",
+  "description": "1. User able to sign in/sign up\r 2. User able to download ticket\r 3. User has record of booked ticket",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -r dotenv/config ./src/server.js",
+    "start": "node ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SidathDabare/air-tickerting-BE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SidathDabare/air-tickerting-BE/issues"
+  },
+  "homepage": "https://github.com/SidathDabare/air-tickerting-BE#readme",
+  "dependencies": {
+    "atob": "^2.1.2",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.1",
+    "cloudinary": "^1.32.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "express-list-endpoints": "^6.0.0",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.5.4",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "stripe": "^10.13.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.2",
+    "nodemon": "^2.0.19"
+  }
+}
