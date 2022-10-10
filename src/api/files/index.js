@@ -2,9 +2,13 @@
 
 import express from "express"
 import multer from "multer"
-
 import { v2 as cloudinary } from "cloudinary"
 import { CloudinaryStorage } from "multer-storage-cloudinary"
+// import { buildPDF } from "../../lib/pdf-service.js"
+import pdf from "html-pdf"
+
+import pdfTemplate from "./documents/index.js"
+import path from "path"
 
 export const cloudinaryUploader = multer({
   storage: new CloudinaryStorage({
@@ -24,15 +28,47 @@ const filesRouter = express.Router()
 filesRouter.post("/", cloudinaryUploader, async (req, res, next) => {
   try {
     console.log("REQ FILE: ", req.file)
-
-    // 1. upload on Cloudinary happens automatically
-    // 2. req.file contains the path which is the url where to find that picture
-    // 3. update the resource by adding the path to it
-    //res.send("UPLOADED")
     res.status(201).send({ url: req.file.path })
   } catch (error) {
     next(error)
   }
+})
+// filesRouter.get("/pdf", (req, res) => {
+//   try {
+//     pdf
+//       .create(document, options)
+//       .then((res) => {
+//         console.log(res)
+//       })
+//       .catch((error) => {
+//         console.error(error)
+//       })
+//   } catch (error) {
+//     console.log(error)
+//   }
+// })
+// filesRouter.get("/pdf", (req, res, next) => {
+//   const stream = res.writeHead(200, {
+//     "Content-Type": "application/pdf",
+//     "Content-Disposition": `attachment;filename=invoice.pdf`,
+//   })
+//   pdf(
+//     (chunk) => stream.write(chunk),
+//     () => stream.end()
+//   )
+// })
+filesRouter.post("/pdf", (req, res) => {
+  pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) => {
+    if (err) {
+      res.send(Promise.reject())
+    }
+
+    res.send(Promise.resolve())
+  })
+})
+filesRouter.get("/fetch-pdf", (req, res) => {
+  //res.sendFile(`${__dirname}/result.pdf`)
+  res.sendFile(path.resolve(`result.pdf`))
 })
 
 export default filesRouter

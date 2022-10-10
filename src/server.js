@@ -14,6 +14,7 @@ import {
 import filesRouter from "./api/files/index.js"
 import Stripe from "stripe"
 import bodyParser from "body-parser"
+
 // import paymentRouter from "./api/payments/index.js"
 const stripe = new Stripe(process.env.STRIPE_SECRET_TEST)
 //console.log("STRIPE SK ", process.env.STRIPE_SECRET_TEST)
