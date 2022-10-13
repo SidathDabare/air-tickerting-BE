@@ -21,11 +21,13 @@
   },
   "homepage": "https://github.com/SidathDabare/air-tickerting-BE#readme",
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "atob": "^2.1.2",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.1",
     "cloudinary": "^1.32.0",
     "cors": "^2.8.5",
+    "date-fns": "^2.29.3",
     "express": "^4.18.1",
     "express-list-endpoints": "^6.0.0",
     "html-pdf": "^3.0.1",

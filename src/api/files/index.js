@@ -71,4 +71,15 @@ filesRouter.get("/fetch-pdf", (req, res) => {
   res.sendFile(path.resolve(`result.pdf`))
 })
 
+filesRouter.get("/asyncPDF", async (req, res, next) => {
+  try {
+    const books = await getBooks()
+    const file = await generatePDFAsync(books)
+    // await sendEmailWithAttachment(file)
+    res.send()
+  } catch (error) {
+    next(error)
+  }
+})
+
 export default filesRouter
