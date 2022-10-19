@@ -2,6 +2,7 @@
 import { format, parseISO } from "date-fns"
 
 const module = ({ data }) => {
+  console.log(data)
   const today = new Date()
 
   // const dateTime = (str, type) => {

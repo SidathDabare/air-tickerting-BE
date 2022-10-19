@@ -23,7 +23,7 @@ export const sendRegistrationEmail = async (
         {
           content: attachFile,
           filename: "result.pdf",
-          type: "appilication/pdf",
+          type: "application/pdf",
           disposition: "attachment",
         },
       ],

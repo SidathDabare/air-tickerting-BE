@@ -3,10 +3,8 @@
 import express from "express"
 import createError from "http-errors"
 import { adminOnlyMiddleware } from "../../lib/auth/admin.js"
-import { basicAuthMiddleware } from "../../lib/auth/basic.js"
 import { JWTAuthMiddleware } from "../../lib/auth/token.js"
 import { createAccessToken } from "../../lib/auth/tools.js"
-import { sendRegistrationEmail } from "../../lib/email-tools.js"
 import UsersModel from "./model.js"
 
 const usersRouter = express.Router()
@@ -23,7 +21,11 @@ usersRouter.post("/", async (req, res, next) => {
 
 usersRouter.get("/", JWTAuthMiddleware, async (req, res, next) => {
   try {
-    const users = await UsersModel.find()
+    const users = await UsersModel.find().populate({
+      path: "Orders",
+      strictPopulate: false,
+    })
+
     res.send(users)
   } catch (error) {
     next(error)
@@ -69,9 +71,13 @@ usersRouter.delete("/me", JWTAuthMiddleware, async (req, res, next) => {
   }
 })
 
-usersRouter.get("/:userId", JWTAuthMiddleware, async (req, res, next) => {
+usersRouter.get("/:userId", async (req, res, next) => {
   try {
-    const user = await UsersModel.findById(req.params.userId)
+    const user = await UsersModel.findById(req.params.userId).populate({
+      path: "Orders",
+      strictPopulate: false,
+      select: "data",
+    })
     if (user) {
       res.send({ currentRequestingUser: req.user, user })
     } else {
@@ -141,16 +147,5 @@ usersRouter.post("/login", async (req, res, next) => {
     next(error)
   }
 })
-usersRouter.post("/register", async (req, res, next) => {
-  try {
-    // 1. receive user's data from req.body
-    const { email, subject, text, html } = req.body
-    // 2. save new user in db
-    // 3. send email to new user
-    await sendRegistrationEmail(email, subject, text, html)
-    res.send({ message: "User registered and email sent!" })
-  } catch (error) {
-    next(error)
-  }
-})
+
 export default usersRouter

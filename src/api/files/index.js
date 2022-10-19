@@ -9,6 +9,8 @@ import pdf from "html-pdf"
 
 import pdfTemplate from "./documents/index.js"
 import path from "path"
+import { sendRegistrationEmail } from "../../lib/email-tools.js"
+import { generatePDFAsync } from "../../lib/pdf-tools.js"
 
 export const cloudinaryUploader = multer({
   storage: new CloudinaryStorage({
@@ -25,7 +27,7 @@ export const cloudinaryUploader = multer({
 const filesRouter = express.Router()
 
 //http://localhost:3001/files/cloudinary
-filesRouter.post("/", cloudinaryUploader, async (req, res, next) => {
+filesRouter.post("/cloudinary", cloudinaryUploader, async (req, res, next) => {
   try {
     console.log("REQ FILE: ", req.file)
     res.status(201).send({ url: req.file.path })
@@ -58,28 +60,44 @@ filesRouter.post("/", cloudinaryUploader, async (req, res, next) => {
 //   )
 // })
 filesRouter.post("/pdf", (req, res) => {
-  pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) => {
-    if (err) {
-      res.send(Promise.reject())
-    }
+  pdf
+    .create(pdfTemplate(req.body), {})
+    .toFile(`pdf/${req.body.data.id}.pdf`, (err) => {
+      if (err) {
+        res.send(Promise.reject())
+      }
 
-    res.send(Promise.resolve())
-  })
+      res.send(Promise.resolve())
+    })
 })
-filesRouter.get("/fetch-pdf", (req, res) => {
+filesRouter.get("/fetch-pdf/:bookId", (req, res) => {
   //res.sendFile(`${__dirname}/result.pdf`)
   res.sendFile(path.resolve(`result.pdf`))
 })
 
-filesRouter.get("/asyncPDF", async (req, res, next) => {
+filesRouter.post("/email", async (req, res, next) => {
   try {
-    const books = await getBooks()
-    const file = await generatePDFAsync(books)
-    // await sendEmailWithAttachment(file)
-    res.send()
+    // 1. receive user's data from req.body
+    const { email, subject, text, html } = req.body
+    // 2. save new user in db
+    // 3. send email to new user
+    await sendRegistrationEmail(email, subject, text, html)
+    res.send({ message: "User registered and email sent!" })
   } catch (error) {
     next(error)
   }
 })
+
+// filesRouter.post("/asyncPDF", async (req, res, next) => {
+//   try {
+//     const source = req.body
+
+//     const destination = await generatePDFAsync(source)
+//     await sendEmailWithAttachment(destination)
+//     res.send()
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 
 export default filesRouter

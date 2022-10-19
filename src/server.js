@@ -14,6 +14,8 @@ import {
 import filesRouter from "./api/files/index.js"
 import Stripe from "stripe"
 import bodyParser from "body-parser"
+import ordersRouter from "./api/orders/index.js"
+import ticketRouter from "./api/ticket/index.js"
 
 // import paymentRouter from "./api/payments/index.js"
 const stripe = new Stripe(process.env.STRIPE_SECRET_TEST)
@@ -29,6 +31,8 @@ server.use(bodyParser.urlencoded({ extended: true }))
 // ********************************** ENDPOINTS ******************************
 server.use("/users", usersRouter)
 server.use("/files", filesRouter)
+server.use("/orders", ordersRouter)
+server.use("/ticket", ticketRouter)
 
 server.post("/payment", cors(), async (req, res) => {
   let { amount, id } = req.body

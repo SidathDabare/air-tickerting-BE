@@ -13,6 +13,7 @@ const UserSchema = new Schema(
     password: { type: String, required: true },
     role: { type: String, enum: ["User", "Admin"], default: "User" },
     avatar: { type: String, required: false },
+    tickets: [{ type: Schema.Types.ObjectId, ref: "Orders" }],
   },
   {
     timestamps: true,
