@@ -4,7 +4,7 @@ import mongoose from "mongoose"
 
 const { Schema, model } = mongoose
 
-const OrdersSchema = new Schema(
+const ordersSchema = new Schema(
   {
     data: {
       type: { type: String },
@@ -223,34 +223,35 @@ const OrdersSchema = new Schema(
       ],
     },
 
-    dictionaries: {
-      locations: {
-        BOM: {
-          cityCode: { type: String },
-          countryCode: { type: String },
-        },
-        FRA: {
-          cityCode: { type: String },
-          countryCode: { type: String },
-        },
-        LHR: {
-          cityCode: { type: String },
-          countryCode: { type: String },
-        },
-        CMB: {
-          cityCode: { type: String },
-          countryCode: { type: String },
-        },
-        BLR: {
-          cityCode: { type: String },
-          countryCode: { type: String },
-        },
-      },
-    },
+    dictionaries: { type: Object },
+    // dictionaries: {
+    //   locations: {
+    //     BOM: {
+    //       cityCode: { type: String },
+    //       countryCode: { type: String },
+    //     },
+    //     FRA: {
+    //       cityCode: { type: String },
+    //       countryCode: { type: String },
+    //     },
+    //     LHR: {
+    //       cityCode: { type: String },
+    //       countryCode: { type: String },
+    //     },
+    //     CMB: {
+    //       cityCode: { type: String },
+    //       countryCode: { type: String },
+    //     },
+    //     BLR: {
+    //       cityCode: { type: String },
+    //       countryCode: { type: String },
+    //     },
+    //   },
+    // },
   },
   {
     timestamps: true,
   }
 )
 
-export default model("Orders", OrdersSchema)
+export default model("Order", ordersSchema)

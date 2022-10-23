@@ -62,7 +62,7 @@ filesRouter.post("/cloudinary", cloudinaryUploader, async (req, res, next) => {
 filesRouter.post("/pdf", (req, res) => {
   pdf
     .create(pdfTemplate(req.body), {})
-    .toFile(`pdf/${req.body.data.id}.pdf`, (err) => {
+    .toFile(`pdf/${req.body.data.queuingOfficeId}.pdf`, (err) => {
       if (err) {
         res.send(Promise.reject())
       }
@@ -72,17 +72,16 @@ filesRouter.post("/pdf", (req, res) => {
 })
 filesRouter.get("/fetch-pdf/:bookId", (req, res) => {
   //res.sendFile(`${__dirname}/result.pdf`)
-  res.sendFile(path.resolve(`result.pdf`))
+  res.sendFile(path.resolve(`pdf/${req.params.bookId}.pdf`))
 })
 
 filesRouter.post("/email", async (req, res, next) => {
   try {
-    // 1. receive user's data from req.body
-    const { email, subject, text, html } = req.body
-    // 2. save new user in db
-    // 3. send email to new user
-    await sendRegistrationEmail(email, subject, text, html)
-    res.send({ message: "User registered and email sent!" })
+    const { email, subject, text, html, id } = req.body
+
+    await sendRegistrationEmail(email, subject, text, html, id)
+
+    res.send({ message: "Email sent!" })
   } catch (error) {
     next(error)
   }

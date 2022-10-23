@@ -19,11 +19,10 @@ usersRouter.post("/", async (req, res, next) => {
   }
 })
 
-usersRouter.get("/", JWTAuthMiddleware, async (req, res, next) => {
+usersRouter.get("/", async (req, res, next) => {
   try {
     const users = await UsersModel.find().populate({
-      path: "Orders",
-      strictPopulate: false,
+      path: "orders",
     })
 
     res.send(users)
@@ -71,15 +70,15 @@ usersRouter.delete("/me", JWTAuthMiddleware, async (req, res, next) => {
   }
 })
 
-usersRouter.get("/:userId", async (req, res, next) => {
+usersRouter.get("/:userId", JWTAuthMiddleware, async (req, res, next) => {
   try {
     const user = await UsersModel.findById(req.params.userId).populate({
-      path: "Orders",
-      strictPopulate: false,
-      select: "data",
+      path: "orders",
     })
+    // .exec()
+
     if (user) {
-      res.send({ currentRequestingUser: req.user, user })
+      res.send(user)
     } else {
       next(createError(404, `User with id ${req.params.userId} not found!`))
     }

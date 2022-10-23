@@ -3,12 +3,14 @@ import { format, parseISO } from "date-fns"
 
 const module = ({ data }) => {
   console.log(data)
-  const today = new Date()
 
   // const dateTime = (str, type) => {
   //   return format(str, type)
   // }
-
+  const getDate = (str) => {
+    let date = str.slice(0, 10)
+    return date
+  }
   const getTime = (str) => {
     let numbers = str.slice(2, str.length).toLowerCase()
     let firstNumbers = numbers.slice(0, 2)
@@ -113,10 +115,9 @@ const module = ({ data }) => {
               <small>Issued by / Date</small><br />
               <small>
               ${data.contacts[0].companyName} /               
-              ${format(
-                parseISO(data.associatedRecords[0].creationDate),
-                "qo MMM yy"
-              )}</small>
+       
+              ${getDate(data.associatedRecords[0].creationDate)}
+              </small>
             </td>
           </tr>
         </table>
@@ -135,11 +136,8 @@ const module = ({ data }) => {
               background-color: rgb(198, 228, 254);
             "
           >
-            <h4>Depature Details ${format(
-              parseISO(
-                data.flightOffers[0].itineraries[0].segments[0].departure.at
-              ),
-              "qo MMM yy"
+            <h4>Depature Details ${getDate(
+              data.flightOffers[0].itineraries[0].segments[0].departure.at
             )}</h4>
           </div>
           
@@ -171,14 +169,14 @@ const module = ({ data }) => {
               <tr class="border_bottom">
                 <td>
                   <p>${item.departure.iataCode}</p>
-                  <h5>${format(parseISO(item.departure.at), "HH:mm")}</h5>
+                  <h5>${getDate(item.departure.at)}</h5>
                 </td>
                 <td style="margin: 0 auto; text-align: center">
                   <div class="single-line"></div>
                 </td>
                 <td style="text-align: right">
                   <p>${item.arrival.iataCode}</p>
-                  <h5>${format(parseISO(item.arrival.at), "HH:mm")}</h5>
+                  <h5>${getDate(item.arrival.at)}</h5>
                 </td>
 
                 <td style="text-align: right">
@@ -220,11 +218,8 @@ const module = ({ data }) => {
               background-color: rgb(198, 228, 254);
             "
           >
-            <h4>Arrival Details ${format(
-              parseISO(
-                data.flightOffers[0].itineraries[1].segments[1].departure.at
-              ),
-              "qo MMM yy"
+            <h4>Arrival Details ${getDate(
+              data.flightOffers[0].itineraries[1].segments[1].departure.at
             )}</h4>
           </div>
           

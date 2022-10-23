@@ -25,7 +25,7 @@ ordersRouter.post(
       const { _id } = await newOrder.save()
       const findUser = await UsersModel.findByIdAndUpdate(
         req.params.userId,
-        { $push: { tickets: _id } },
+        { $push: { orders: _id } },
         { new: true, runValidators: true }
       )
       if (!findUser)
@@ -46,22 +46,27 @@ ordersRouter.get("/", JWTAuthMiddleware, async (req, res, next) => {
     next(error)
   }
 })
-ordersRouter.get("/:userId/tickets", async (req, res, next) => {
-  try {
-    // const orders = await UsersModel.findById(req.params.userId).populate({
-    //   path: "Orders",
-    //   strictPopulate: false,
-    // })
-    const orders = await UsersModel.findById(req.params.userId)
-    if (!orders)
-      return next(
-        createHttpError(404, `User with id: ${req.params.userId} not foud`)
-      )
-    res.send(orders)
-  } catch (error) {
-    next(error)
-  }
-})
+// ordersRouter.get("/:userId/tickets", async (req, res, next) => {
+//   try {
+//     const orders = await UsersModel.findById(req.params.userId).populate({
+//       path: "Orders",
+//       populate: [
+//         {
+//           path: "data",
+//         },
+//       ],
+//       strictPopulate: false,
+//     })
+//     //const orders = await UsersModel.findById(req.params.userId)
+//     if (!orders)
+//       return next(
+//         createHttpError(404, `User with id: ${req.params.userId} not foud`)
+//       )
+//     res.send(orders)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
 ordersRouter.get("/:orderId", async (req, res, next) => {
   try {
     const orders = await OrdersModel.findById(req.params.orderId)

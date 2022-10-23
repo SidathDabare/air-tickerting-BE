@@ -5,7 +5,7 @@ import bcrypt from "bcrypt"
 
 const { Schema, model } = mongoose
 
-const UserSchema = new Schema(
+const userSchema = new Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -13,14 +13,14 @@ const UserSchema = new Schema(
     password: { type: String, required: true },
     role: { type: String, enum: ["User", "Admin"], default: "User" },
     avatar: { type: String, required: false },
-    tickets: [{ type: Schema.Types.ObjectId, ref: "Orders" }],
+    orders: [{ type: Schema.Types.ObjectId, ref: "Order" }],
   },
   {
     timestamps: true,
   }
 )
 
-UserSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
   const currentUser = this
 
   const plainPW = currentUser.password
@@ -33,7 +33,7 @@ UserSchema.pre("save", async function (next) {
   next()
 })
 
-UserSchema.methods.toJSON = function () {
+userSchema.methods.toJSON = function () {
   const userDocument = this
   const user = userDocument.toObject()
 
@@ -42,7 +42,7 @@ UserSchema.methods.toJSON = function () {
   return user
 }
 
-UserSchema.static("checkCredentials", async function (email, plainPassword) {
+userSchema.static("checkCredentials", async function (email, plainPassword) {
   const user = await this.findOne({ email })
 
   if (user) {
@@ -60,4 +60,4 @@ UserSchema.static("checkCredentials", async function (email, plainPassword) {
   }
 })
 
-export default model("User", UserSchema)
+export default model("User", userSchema)
