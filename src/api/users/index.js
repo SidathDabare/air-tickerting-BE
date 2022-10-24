@@ -6,6 +6,7 @@ import { adminOnlyMiddleware } from "../../lib/auth/admin.js"
 import { JWTAuthMiddleware } from "../../lib/auth/token.js"
 import { createAccessToken } from "../../lib/auth/tools.js"
 import UsersModel from "./model.js"
+import q2m from "query-to-mongo"
 
 const usersRouter = express.Router()
 
@@ -21,11 +22,30 @@ usersRouter.post("/", async (req, res, next) => {
 
 usersRouter.get("/", async (req, res, next) => {
   try {
-    const users = await UsersModel.find().populate({
-      path: "orders",
+    // const users = await UsersModel.find().populate({
+    //   path: "orders",
+    // })
+    const mongoQuery = q2m(req.query)
+    const totalUsers = await UsersModel.countDocuments(mongoQuery.criteria)
+    const users = await UsersModel.find(
+      mongoQuery.criteria,
+      mongoQuery.options.fields
+    )
+      .limit(mongoQuery.options.limit)
+      .skip(mongoQuery.options.skip)
+      .sort(mongoQuery.options.sort)
+      .populate({
+        path: "orders",
+      })
+    res.send({
+      links: mongoQuery.links(
+        `${process.env.TESTING_DEFAULT_URL}/users`,
+        totalUsers
+      ),
+      totalUsers,
+      totalPages: Math.ceil(totalUsers / mongoQuery.options.limit),
+      users,
     })
-
-    res.send(users)
   } catch (error) {
     next(error)
   }
