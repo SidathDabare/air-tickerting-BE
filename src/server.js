@@ -16,12 +16,14 @@ import Stripe from "stripe"
 import bodyParser from "body-parser"
 import ordersRouter from "./api/orders/index.js"
 import ticketRouter from "./api/ticket/index.js"
+import { join } from "path"
 
 // import paymentRouter from "./api/payments/index.js"
 const stripe = new Stripe(process.env.STRIPE_SECRET_TEST)
 //console.log("STRIPE SK ", process.env.STRIPE_SECRET_TEST)
 const server = express()
 const port = process.env.PORT || 3001
+const publicFolderPath = join(process.cwd(), "./pdf")
 
 // ********************************* MIDDLEWARES *****************************
 // server.use(cors())
@@ -29,14 +31,11 @@ const whitelist = [process.env.FE_DEV_URL, process.env.FE_PROD_URL]
 server.use(
   cors({
     origin: (origin, corsNext) => {
-      // If you want to connect FE to this BE you must use cors middleware
       console.log("ORIGIN: ", origin)
 
       if (!origin || whitelist.indexOf(origin) !== -1) {
-        // if origin is in the whitelist we can move next
         corsNext(null, true)
       } else {
-        // if origin is NOT in the whitelist --> trigger an error
         corsNext(
           createHttpError(
             400,
@@ -47,6 +46,7 @@ server.use(
     },
   })
 )
+server.use(express.static(publicFolderPath))
 server.use(express.json())
 server.use(bodyParser.urlencoded({ extended: true }))
 
