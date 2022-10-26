@@ -62,7 +62,7 @@ filesRouter.post("/cloudinary", cloudinaryUploader, async (req, res, next) => {
 filesRouter.post("/pdf", (req, res) => {
   pdf
     .create(pdfTemplate(req.body), {})
-    .toFile(`pdf/${req.body.data.queuingOfficeId}.pdf`, (err) => {
+    .toFile(`pdf/${req.body.orderId}.pdf`, (err) => {
       if (err) {
         res.send(Promise.reject())
       }
