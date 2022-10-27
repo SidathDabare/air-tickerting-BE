@@ -4,7 +4,7 @@ import { promisify } from "util"
 import { pdfWritableStream } from "./tools.js"
 import fsExtra from "fs-extra"
 import pdf from "html-pdf"
-import pdfTemplate from "../api/files/documents/index.js"
+import pdfTemplate from "../api/files/documents/returnTicket.js"
 
 const { createWriteStream } = fsExtra
 

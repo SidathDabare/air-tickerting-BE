@@ -7,7 +7,9 @@ import { CloudinaryStorage } from "multer-storage-cloudinary"
 // import { buildPDF } from "../../lib/pdf-service.js"
 import pdf from "html-pdf"
 
-import pdfTemplate from "./documents/index.js"
+import returnPdfTemplate from "./documents/returnTicket.js"
+import oneWayTicketPdfTemplate from "./documents/oneWayTicket.js"
+
 import path from "path"
 import { sendRegistrationEmail } from "../../lib/email-tools.js"
 import { generatePDFAsync } from "../../lib/pdf-tools.js"
@@ -61,7 +63,7 @@ filesRouter.post("/cloudinary", cloudinaryUploader, async (req, res, next) => {
 // })
 filesRouter.post("/pdf", (req, res) => {
   pdf
-    .create(pdfTemplate(req.body), {})
+    .create(returnPdfTemplate(req.body), {})
     .toFile(`pdf/${req.body.orderId}.pdf`, (err) => {
       if (err) {
         res.send(Promise.reject())
@@ -69,6 +71,27 @@ filesRouter.post("/pdf", (req, res) => {
 
       res.send(Promise.resolve())
     })
+  // if (req.body.data.flightOffers[0].itineraries.length > 0) {
+  //   pdf
+  //     .create(returnPdfTemplate(req.body), {})
+  //     .toFile(`pdf/${req.body.orderId}.pdf`, (err) => {
+  //       if (err) {
+  //         res.send(Promise.reject())
+  //       }
+
+  //       res.send(Promise.resolve())
+  //     })
+  // } else {
+  //   pdf
+  //     .create(oneWayTicketPdfTemplate(req.body), {})
+  //     .toFile(`pdf/${req.body.orderId}.pdf`, (err) => {
+  //       if (err) {
+  //         res.send(Promise.reject())
+  //       }
+
+  //       res.send(Promise.resolve())
+  //     })
+  // }
 })
 filesRouter.get("/fetch-pdf/:bookId", (req, res) => {
   //res.sendFile(`${__dirname}/result.pdf`)
