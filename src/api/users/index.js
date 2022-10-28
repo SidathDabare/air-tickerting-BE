@@ -155,7 +155,7 @@ usersRouter.post("/login", async (req, res, next) => {
     )
 
     if (user) {
-      const token = await createAccessToken({ _id: user._id })
+      const token = await createAccessToken({ _id: user._id, role: user.role })
       res.send({ token, user })
     } else {
       next(
