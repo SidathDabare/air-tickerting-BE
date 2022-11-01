@@ -4,6 +4,7 @@ import express from "express"
 import { JWTAuthMiddleware } from "../../lib/auth/token.js"
 import OrdersModel from "./model.js"
 import UsersModel from "../users/model.js"
+import { adminOnlyMiddleware } from "../../lib/auth/admin.js"
 
 const ordersRouter = express.Router()
 
@@ -38,7 +39,7 @@ ordersRouter.post(
     }
   }
 )
-ordersRouter.get("/", JWTAuthMiddleware, async (req, res, next) => {
+ordersRouter.get("/", async (req, res, next) => {
   try {
     const orders = await OrdersModel.find()
     res.send(orders)
