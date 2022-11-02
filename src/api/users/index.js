@@ -64,22 +64,27 @@ usersRouter.get("/me", JWTAuthMiddleware, async (req, res, next) => {
   }
 })
 
-usersRouter.put("/me", JWTAuthMiddleware, async (req, res, next) => {
-  try {
-    const updatedUser = await UsersModel.findByIdAndUpdate(
-      req.user._id,
-      req.body,
-      { new: true, runValidators: true }
-    )
-    if (updatedUser) {
-      res.send(updatedUser)
-    } else {
-      next(createError(404, `User with id ${req.params.userId} not found!`))
+usersRouter.put(
+  "/me",
+  JWTAuthMiddleware,
+
+  async (req, res, next) => {
+    try {
+      const updatedUser = await UsersModel.findByIdAndUpdate(
+        req.user._id,
+        req.body,
+        { new: true, runValidators: true }
+      )
+      if (updatedUser) {
+        res.send(updatedUser)
+      } else {
+        next(createError(404, `User with id ${req.params.userId} not found!`))
+      }
+    } catch (error) {
+      next(error)
     }
-  } catch (error) {
-    next(error)
   }
-})
+)
 
 usersRouter.delete("/me", JWTAuthMiddleware, async (req, res, next) => {
   try {

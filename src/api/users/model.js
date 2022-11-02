@@ -37,8 +37,8 @@ userSchema.methods.toJSON = function () {
   const userDocument = this
   const user = userDocument.toObject()
 
-  delete user.password
-  delete user.__v
+  // delete user.password
+  // delete user.__v
   return user
 }
 
