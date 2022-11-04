@@ -64,6 +64,21 @@ usersRouter.get("/me", JWTAuthMiddleware, async (req, res, next) => {
   }
 })
 
+usersRouter.patch("/me/password", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    const user = await UsersModel.findById(req.user._id)
+    if (user) {
+      user.password = req.body.password
+      await user.save()
+      res.send(user)
+    } else {
+      next(createError(401, `User with id ${req.user._id} not found!`))
+    }
+  } catch (error) {
+    next(error)
+  }
+})
+
 usersRouter.put(
   "/me",
   JWTAuthMiddleware,
