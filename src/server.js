@@ -22,7 +22,7 @@ import { join } from "path"
 const stripe = new Stripe(process.env.STRIPE_SECRET_TEST)
 //console.log("STRIPE SK ", process.env.STRIPE_SECRET_TEST)
 const server = express()
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 3002
 const publicFolderPath = join(process.cwd(), "./pdf")
 
 // ********************************* MIDDLEWARES *****************************
