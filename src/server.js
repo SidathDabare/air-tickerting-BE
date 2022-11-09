@@ -46,8 +46,9 @@ const publicFolderPath = join(process.cwd(), "./pdf")
 //     },
 //   })
 // )
-server.use(cors())
+
 server.use(express.static(publicFolderPath))
+server.use(cors())
 server.use(express.json())
 server.use(bodyParser.urlencoded({ extended: true }))
 
