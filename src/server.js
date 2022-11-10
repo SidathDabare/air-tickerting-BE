@@ -56,7 +56,7 @@ server.use("/files", filesRouter)
 server.use("/orders", ordersRouter)
 server.use("/ticket", ticketRouter)
 
-server.post("/payment", cors(), async (req, res) => {
+server.post("/payment", async (req, res) => {
   let { amount, id } = req.body
   try {
     const payment = await stripe.paymentIntents.create({
