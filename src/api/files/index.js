@@ -61,7 +61,7 @@ filesRouter.post("/cloudinary", cloudinaryUploader, async (req, res, next) => {
 //     () => stream.end()
 //   )
 // })
-filesRouter.post("/pdf", (req, res) => {
+filesRouter.post("/pdf", async (req, res) => {
   pdf
     .create(returnPdfTemplate(req.body), {})
     .toFile(`pdf/${req.body.orderId}.pdf`, (err) => {
@@ -93,7 +93,7 @@ filesRouter.post("/pdf", (req, res) => {
   //     })
   // }
 })
-filesRouter.get("/fetch-pdf/:bookId", (req, res) => {
+filesRouter.get("/fetch-pdf/:bookId", async (req, res) => {
   //res.sendFile(`${__dirname}/result.pdf`)
   res.sendFile(path.resolve(`pdf/${req.params.bookId}.pdf`))
 })
