@@ -4,18 +4,18 @@ import express from "express"
 import listEndpoints from "express-list-endpoints"
 import mongoose from "mongoose"
 import cors from "cors"
-import usersRouter from "./api/users/index.js"
+import usersRouter from "./src/api/users/index.js"
 import {
   forbiddenErrorHandler,
   genericErroHandler,
   notFoundErrorHandler,
   unauthorizedErrorHandler,
-} from "./errorHandlers.js"
-import filesRouter from "./api/files/index.js"
+} from "./src/errorHandlers.js"
+import filesRouter from "./src/api/files/index.js"
 import Stripe from "stripe"
 import bodyParser from "body-parser"
-import ordersRouter from "./api/orders/index.js"
-import ticketRouter from "./api/ticket/index.js"
+import ordersRouter from "./src/api/orders/index.js"
+import ticketRouter from "./src/api/ticket/index.js"
 import { join } from "path"
 import dotenv from "dotenv"
 
