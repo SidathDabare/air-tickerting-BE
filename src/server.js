@@ -17,10 +17,12 @@ import bodyParser from "body-parser"
 import ordersRouter from "./api/orders/index.js"
 import ticketRouter from "./api/ticket/index.js"
 import { join } from "path"
+import dotenv from "dotenv"
 
 // import paymentRouter from "./api/payments/index.js"
 const stripe = new Stripe(process.env.STRIPE_SECRET_TEST)
 //console.log("STRIPE SK ", process.env.STRIPE_SECRET_TEST)
+dotenv.config()
 const server = express()
 const port = process.env.PORT || 3002
 const publicFolderPath = join(process.cwd(), "./pdf")
