@@ -52,6 +52,16 @@ server.use(express.static(publicFolderPath))
 server.use(express.json())
 server.use(bodyParser.urlencoded({ extended: true }))
 
+mongoose.connect(process.env.MONGO_URI)
+
+mongoose.connection.on("connected", () => {
+  console.log("Mongo Connected!")
+  server.listen(port, () => {
+    console.table(listEndpoints(server))
+    console.log(`Server is listening on port ${port}`)
+  })
+})
+
 // ********************************** ENDPOINTS ******************************
 server.use("/users", usersRouter)
 server.use("/files", filesRouter)
@@ -87,13 +97,3 @@ server.use(unauthorizedErrorHandler)
 server.use(forbiddenErrorHandler)
 server.use(notFoundErrorHandler)
 server.use(genericErroHandler)
-
-mongoose.connect(process.env.MONGO_URI)
-
-mongoose.connection.on("connected", () => {
-  console.log("Mongo Connected!")
-  server.listen(port, () => {
-    console.table(listEndpoints(server))
-    console.log(`Server is listening on port ${port}`)
-  })
-})
