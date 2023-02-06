@@ -88,7 +88,7 @@ server.use(forbiddenErrorHandler)
 server.use(notFoundErrorHandler)
 server.use(genericErroHandler)
 
-mongoose.connect(process.env.MONGO_CONNECTION_STRING)
+mongoose.connect(process.env.MONGO_URI)
 
 mongoose.connection.on("connected", () => {
   console.log("Mongo Connected!")
