@@ -1,5 +1,6 @@
 /** @format */
-
+import * as dotenv from "dotenv"
+dotenv.config()
 import express from "express"
 import listEndpoints from "express-list-endpoints"
 import mongoose from "mongoose"
@@ -17,7 +18,6 @@ import bodyParser from "body-parser"
 import ordersRouter from "./src/api/orders/index.js"
 import ticketRouter from "./src/api/ticket/index.js"
 import { join } from "path"
-import dotenv from "dotenv"
 
 // import paymentRouter from "./api/payments/index.js"
 const stripe = new Stripe(process.env.STRIPE_SECRET_TEST)
