@@ -29,31 +29,31 @@ const port = process.env.PORT || 3002
 const publicFolderPath = join(process.cwd(), "./pdf")
 
 // ********************************* MIDDLEWARES *****************************
-// server.use(cors())
-// const whitelist = [process.env.FE_PROD_URL, process.env.FE_DEV_URL]
-// server.use(
-//   cors({
-//     origin: (origin, corsNext) => {
-//       console.log("ORIGIN: ", origin)
-
-//       if (!origin || whitelist.indexOf(origin) !== -1) {
-//         corsNext(null, true)
-//       } else {
-//         corsNext(
-//           createHttpError(
-//             400,
-//             `Cors Error! Your origin ${origin} is not in the list!`
-//           )
-//         )
-//       }
-//     },
-//   })
-// )
+server.use(cors())
+const whitelist = [process.env.FE_PROD_URL, process.env.FE_DEV_URL]
 server.use(
   cors({
-    origin: [process.env.FE_PROD_URL, process.env.FE_DEV_URL],
+    origin: (origin, corsNext) => {
+      console.log("ORIGIN: ", origin)
+
+      if (!origin || whitelist.indexOf(origin) !== -1) {
+        corsNext(null, true)
+      } else {
+        corsNext(
+          createHttpError(
+            400,
+            `Cors Error! Your origin ${origin} is not in the list!`
+          )
+        )
+      }
+    },
   })
 )
+// server.use(
+//   cors({
+//     origin: [process.env.FE_PROD_URL, process.env.FE_DEV_URL],
+//   })
+// )
 server.use(express.static(publicFolderPath))
 server.use(express.json())
 server.use(bodyParser.urlencoded({ extended: true }))
