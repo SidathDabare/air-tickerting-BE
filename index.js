@@ -31,7 +31,7 @@ const publicFolderPath = join(process.cwd(), "./pdf")
 // ********************************* MIDDLEWARES *****************************
 // server.use(cors())
 // const whitelist = [process.env.FE_PROD_URL, process.env.FE_DEV_URL]
-server.use(cors({ origin: [process.env.FE_PROD_URL, process.env.FE_DEV_URL] }))
+// server.use(cors({ origin: [process.env.FE_PROD_URL, process.env.FE_DEV_URL] }))
 // server.use(
 //   cors({
 //     origin: (origin, corsNext) => {
@@ -50,6 +50,12 @@ server.use(cors({ origin: [process.env.FE_PROD_URL, process.env.FE_DEV_URL] }))
 //     },
 //   })
 // )
+
+server.use(
+  cors({
+    origin: "*",
+  })
+)
 server.use(express.static(publicFolderPath))
 server.use(express.json())
 server.use(bodyParser.urlencoded({ extended: true }))
