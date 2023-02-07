@@ -41,7 +41,8 @@
     "pdfkit": "^0.13.0",
     "query-to-mongo": "^0.10.2",
     "stripe": "^10.13.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "dotenv": "^16.0.3"
   },
   "devDependencies": {
     "dotenv": "^16.0.3",
