@@ -1,6 +1,5 @@
 /** @format */
 import * as dotenv from "dotenv"
-
 import express from "express"
 import listEndpoints from "express-list-endpoints"
 import mongoose from "mongoose"
@@ -29,7 +28,7 @@ const port = process.env.PORT || 3002
 const publicFolderPath = join(process.cwd(), "./pdf")
 
 // ********************************* MIDDLEWARES *****************************
-server.use(cors())
+// server.use(cors())
 const whitelist = [process.env.FE_PROD_URL, process.env.FE_DEV_URL]
 server.use(
   cors({
