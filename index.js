@@ -17,6 +17,7 @@ import bodyParser from "body-parser"
 import ordersRouter from "./src/api/orders/index.js"
 import ticketRouter from "./src/api/ticket/index.js"
 import { join } from "path"
+import createHttpError from "http-errors"
 
 dotenv.config()
 // import paymentRouter from "./api/payments/index.js"
